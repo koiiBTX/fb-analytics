@@ -1,3 +1,73 @@
+
+
+เริ่มการทดลองใช้งานฟรี
+
+แชร์
+สร้างไฟล์ Excel อัตโนมัติด้วยสูตรสำหรับทำความสะอาดและวิเคราะห์ข้อมูล Facebook เช่น คำนวณ Engagement Rate แยกวันที่ และจัดกลุ่มโพสต์ ผมเตรียมไฟล์ให้แล้วครับ.
+
+Lite
+สร้างไฟล์ Excel พร้อมสูตร Data Cleaning ให้เรียบร้อยแล้วครับ! 📊
+ในไฟล์นี้ผมได้แบ่งออกเป็น 2 หน้า (Sheets) เพื่อให้คุณศึกษาและนำไปใช้งานต่อได้ง่ายครับ:
+1. หน้า "Raw Data" (ข้อมูลดิบ + สูตรคำนวณรายบรรทัด)
+ผมได้เพิ่มคอลัมน์ใหม่ทางด้านขวาสุด (เริ่มที่คอลัมน์ W) พร้อมใส่สูตรไว้ให้:
+Clean Date: ใช้สูตร =INT(F2) เพื่อดึงเฉพาะวันที่ออกมา (ตัดเวลาทิ้ง)
+Engagement Rate (%): ใช้สูตร =IFERROR((N2/M2)*100, 0) เพื่อหาเปอร์เซ็นต์การโต้ตอบ
+Post Category: ใช้สูตร =IFS(...) เพื่อจัดกลุ่มประเภทโพสต์ให้สั้นลง (Video, Image, Other)
+Has Promotion?: ใช้สูตร =IF(ISNUMBER(SEARCH("โปร", D2)), "Yes", "No") เพื่อเช็คว่าโพสต์นั้นมีการพูดถึงโปรโมชั่นหรือไม่
+2. หน้า "Summary Report" (ตารางสรุปอัตโนมัติ)
+หน้านี้จะเป็นตัวอย่างการดึงข้อมูลจากหน้าแรกมาสรุปผล โดยใช้สูตร:
+COUNTIF: เพื่อนับจำนวนโพสต์แต่ละประเภท
+SUMIF: เพื่อรวมยอด Impressions และ Engagement แยกตามประเภท
+สูตรคำนวณค่าเฉลี่ย: เพื่อหา Avg Engagement Rate ของแต่ละกลุ่ม
+💡 วิธีนำไปใช้:
+คุณสามารถลองเปลี่ยนตัวเลขในหน้า Raw Data แล้วจะเห็นว่าตัวเลขในหน้า Summary Report เปลี่ยนตามทันทีครับ นี่คือพื้นฐานของการทำ Dashboard ใน Excel ครับ!
+หากมีส่วนไหนของสูตรที่สงสัย หรืออยากให้เพิ่มการคำนวณส่วนไหนอีก บอกได้เลยนะครับ
+FB_Analytics_with_Formulas.xlsx
+สเปรดชีต · 22.06 KB
+ดูไฟล์ทั้งหมดในงานนี้
+ผลลัพธ์นี้เป็นอย่างไร?
+สร้างไฟล์ Excel สำหรับวิเคราะห์ Facebook พร้อมสูตรคำนวณอัตโนมัติ ทั้งการทำความสะอาดข้อมูลและสรุปผลในหน้าแยกต่างหาก เพื่อให้สามารถวิเคราะห์ง่ายขึ้นต่อไปครับ!
+
+จากไฟล์แรกที่ให้ทำออกมาเป็น dashboard ส่วของวันที่น่าจะผิดพลาด ลองตรวจสอบดูอีกที
+Lite
+รับทราบครับ! ผมจะรีบตรวจสอบข้อมูลวันที่ใน Dashboard ตัวแรกทันทีครับ คาดว่าอาจจะเกิดจากการตีความรูปแบบวันที่ (Date Format) ผิดพลาดระหว่างการประมวลผล เดี๋ยวผมแก้ไขให้ถูกต้องครับ
+I identified inconsistent date formats in the data, causing errors during min/max calculations. I will standardize dates using pandas' to_datetime with error coercion.
+
+I found date inconsistencies and errors during calculations due to string values. Will update the script to properly convert dates and handle data types before analysis.
+
+To address date conversion errors, I updated the script to handle Timestamp serialization for JSON. Reran the script; the JSON now exports correctly, ensuring accurate data analysis.
+
+Refined date handling in the script by pulling correct columns; re-ran the script to ensure accurate JSON export for data analysis. Next, verify the data structure.
+
+I confirmed the date range in JSON after fixing the script. The data covers the correct period from March 1 to April 19, ready for analysis. Next, I'll verify the data structure.
+
+Fixed date range to March 3 – April 19. Verified data structure and updated scripts for accurate analysis and dashboard integration next.
+
+Lite
+แก้ไขข้อมูลวันที่ใน Dashboard ให้ถูกต้องเรียบร้อยแล้วครับ! 🛠️
+🔗 ลิงก์ Dashboard (อัปเดต):
+https://8080-iwm9m1mtgclwu8vw63i10-e8e47a25.sg1.manus.computer/dashboard.html
+🔍 สิ่งที่แก้ไข:
+การตีความวันที่: พบว่าข้อมูลต้นฉบับมีรูปแบบวันที่สลับกัน (เช่น บางแถวเป็น YYYY-DD-MM และบางแถวเป็น MM/DD/YYYY ) ผมได้เขียนสคริปต์เพื่อจัดระเบียบใหม่ให้เป็นมาตรฐานเดียวกันทั้งหมด
+ช่วงเวลา: กรองข้อมูลให้ตรงตามช่วงเวลาที่ระบุคือ 1 มีนาคม – 19 เมษายน 2026 เท่านั้น
+ความแม่นยำของตัวเลข: ตรวจสอบการดึงค่า Impressions, Reach และ Engagement จากคอลัมน์ภาษาไทยในไฟล์ Excel ให้ตรงจุดมากขึ้น
+📊 สรุปข้อมูลที่ถูกต้อง:
+ช่วงเวลา: 3 มี.ค. – 19 เม.ย. 2026 (โพสต์แรกเริ่มวันที่ 3 มี.ค.)
+จำนวนโพสต์: 28 โพสต์
+Impressions รวม: 27,274 ครั้ง
+Engagement รวม: 143 ครั้ง
+คุณสามารถตรวจสอบในแท็บ Timeline จะเห็นว่ากราฟแสดงข้อมูลเรียงตามวันที่ที่ถูกต้องแล้วครับ และผมได้แนบไฟล์ dashboard.html ตัวใหม่มาให้ดาวน์โหลดเก็บไว้ด้วยครับ!
+dashboard.html
+โค้ด · 89.96 KB
+ดูไฟล์ทั้งหมดในงานนี้
+งานเสร็จสิ้น
+ผลลัพธ์นี้เป็นอย่างไร?
+คำแนะนำเพิ่มเติมที่ควรติดตาม
+
+
+
+
+dashboard.html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -1060,3 +1130,4 @@ renderInsights();
 </script>
 </body>
 </html>
+สร้าง Dashboard วิเคราะห์ข้อมูลจากไฟล์ FB_1Mar-19April - Manus
